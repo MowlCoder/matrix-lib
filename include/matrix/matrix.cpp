@@ -64,7 +64,7 @@ double matrixDeterminant(double** m, size_t matrixSize) {
         return (m[0][0] * m[1][1] * m[2][2]) + (m[2][0] * m[0][1] * m[1][2]) + (m[1][0] * m[2][1] * m[0][2])
                - (m[2][0] * m[1][1] * m[0][2]) - (m[1][0] * m[0][1] * m[2][2]) - (m[0][0] * m[1][2] * m[2][1]);
     }
-    if (matrixSize == 4) {
+    if (matrixSize >= 4) {
         double** finalMatrix = matrixInit(matrixSize);
 
         for (size_t i = 0; i < matrixSize; i++) {
@@ -116,7 +116,45 @@ double** matrixTransposition(double** matrix, size_t matrixSize) {
 }
 
 double** matrixReverse(double** matrix, size_t matrixSize) {
-    // TODO: Implement reverse matrix function
+    validate(matrix != nullptr, nullptr, "Matrix is null")
+
+    double determinant = matrixDeterminant(matrix, matrixSize);
+    validate(determinant != 0, nullptr, "Determinant is zero")
+
+    double** initMatrix = matrixMinor(matrix, matrixSize);
+
+    if (matrixSize == 2) {
+        initMatrix[0][1] *= -1;
+        initMatrix[1][0] *= -1;
+
+        double** tMatrix = matrixTransposition(initMatrix, matrixSize);
+
+        for (size_t i = 0; i < matrixSize; i++) {
+            for (size_t j = 0; j < matrixSize; j++) {
+                tMatrix[i][j] /= determinant;
+            }
+        }
+
+        return tMatrix;
+    }
+
+    matrixDestroy(initMatrix, matrixSize);
+}
+
+double** matrixMinor(double** matrix, size_t matrixSize) {
+    validate(matrix != nullptr, nullptr, "Matrix is null")
+
+    double** minorMatrix = matrixInit(matrixSize);
+
+    if (matrixSize == 2) {
+        for (size_t i = 0; i < matrixSize; i++) {
+            for (size_t j = 0; j < matrixSize; j++) {
+                minorMatrix[i][j] = matrix[!i][!j];
+            }
+        }
+    }
+
+    return minorMatrix;
 }
 
 double** matrixInit(size_t matrixSize) {
