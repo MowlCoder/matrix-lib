@@ -115,6 +115,10 @@ double** matrixTransposition(double** matrix, size_t matrixSize) {
     return resultMatrix;
 }
 
+double** matrixReverse(double** matrix, size_t matrixSize) {
+    // TODO: Implement reverse matrix function
+}
+
 double** matrixInit(size_t matrixSize) {
     validate(matrixSize >= 2 && matrixSize <= 6, nullptr, "Matrix size should be between 2 and 6")
 

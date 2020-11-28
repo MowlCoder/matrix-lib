@@ -10,3 +10,4 @@ double** matrixSubtraction(double** firstMatrix, double** secondMatrix, size_t m
 double** matrixMulti(double** firstMatrix, double** secondMatrix, size_t matrixSize);
 double matrixDeterminant(double** matrix, size_t matrixSize);
 double** matrixTransposition(double** matrix, size_t matrixSize);
+double** matrixReverse(double** matrix, size_t matrixSize);
