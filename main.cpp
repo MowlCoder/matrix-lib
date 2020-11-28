@@ -41,19 +41,8 @@ int main() {
         return 0;
     }
 
-//    std::cout << "Result matrix:\n";
-//
-//    for (int i = 0; i < matrixSize; ++i) {
-//        for (int j = 0; j < matrixSize; ++j) {
-//            std::cout << resultMatrix[i][j] << ' ';
-//        }
-//
-//        std::cout << '\n';
-//    }
-
-//    double x = matrixDeterminant(secondMatrix, 3);
-//
-//    std::cout << x << std::endl;
+    matrixDisplay(resultMatrix, matrixSize);
+    std::cout << '\n';
 
     matrixDestroy(firstMatrix, matrixSize);
     matrixDestroy(secondMatrix, matrixSize);
@@ -80,8 +69,13 @@ int main() {
     testMatrix[3][2] = 8;
     testMatrix[3][3] = 9;
 
-    std::cout << matrixDeterminant(testMatrix, 4) << '\n';
+    double** tMatrix = matrixTransposition(testMatrix, 4);
 
+    matrixDisplay(testMatrix, 4);
+    std::cout << '\n';
+    matrixDisplay(tMatrix, 4);
+
+    matrixDestroy(tMatrix, 4);
     matrixDestroy(testMatrix, 4);
 
     return 0;

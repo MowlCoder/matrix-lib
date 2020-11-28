@@ -3,4 +3,4 @@ project(matrix_lib)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(matrix_lib main.cpp include/matrix/matrix.cpp include/matrix/matrix.h)
+add_executable(matrix_lib main.cpp include/matrix/matrix.cpp include/matrix/matrix.h include/validate/validate.h include/validate/validate.h)

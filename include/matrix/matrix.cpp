@@ -2,12 +2,7 @@
 #include <cstring>
 #include <cmath>
 #include "matrix.h"
-
-#define validate(condition, return_statement, message) \
-    if (!(condition)) { \
-        std::cerr << message << " (" << __FILE__ << " " << __FUNCTION__ << " " << __LINE__ << ")" << std::endl; \
-        return return_statement; \
-    }
+#include "../validate/validate.h"
 
 double** matrixAdd(double** firstMatrix, double** secondMatrix, size_t matrixSize) {
     double** resultMatrix = matrixInit(matrixSize);
@@ -102,6 +97,8 @@ double matrixDeterminant(double** m, size_t matrixSize) {
         matrixDestroy(finalMatrix, matrixSize);
         return result;
     }
+
+    return 0;
 }
 
 double** matrixTransposition(double** matrix, size_t matrixSize) {
@@ -109,9 +106,12 @@ double** matrixTransposition(double** matrix, size_t matrixSize) {
 
     double** resultMatrix = matrixInit(matrixSize);
 
+    for (size_t i = 0; i < matrixSize; i++) {
+        for (size_t j = 0; j < matrixSize; j++) {
+            resultMatrix[i][j] = matrix[j][i];
+        }
+    }
 
-
-    matrixDestroy(matrix, matrixSize);
     return resultMatrix;
 }
 
@@ -134,4 +134,14 @@ void matrixDestroy(double** matrix, size_t matrixSize) {
     }
 
     delete matrix;
+}
+
+void matrixDisplay(double** matrix, size_t matrixSize) {
+    for (size_t i = 0; i < matrixSize; i++) {
+        for (size_t j = 0; j < matrixSize; j++) {
+            std::cout << matrix[i][j] << '\t';
+        }
+
+        std::cout << '\n';
+    }
 }
