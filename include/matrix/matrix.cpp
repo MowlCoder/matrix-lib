@@ -126,19 +126,24 @@ double** matrixReverse(double** matrix, size_t matrixSize) {
     if (matrixSize == 2) {
         initMatrix[0][1] *= -1;
         initMatrix[1][0] *= -1;
+    }
+    else if (matrixSize == 3) {
+        initMatrix[0][1] *= -1;
+        initMatrix[1][0] *= -1;
+        initMatrix[1][2] *= -1;
+        initMatrix[2][1] *= -1;
+    }
 
-        double** tMatrix = matrixTransposition(initMatrix, matrixSize);
+    double** tMatrix = matrixTransposition(initMatrix, matrixSize);
 
-        for (size_t i = 0; i < matrixSize; i++) {
-            for (size_t j = 0; j < matrixSize; j++) {
-                tMatrix[i][j] /= determinant;
-            }
+    for (size_t i = 0; i < matrixSize; i++) {
+        for (size_t j = 0; j < matrixSize; j++) {
+            tMatrix[i][j] /= determinant;
         }
-
-        return tMatrix;
     }
 
     matrixDestroy(initMatrix, matrixSize);
+    return tMatrix;
 }
 
 double** matrixMinor(double** matrix, size_t matrixSize) {
@@ -150,6 +155,17 @@ double** matrixMinor(double** matrix, size_t matrixSize) {
         for (size_t i = 0; i < matrixSize; i++) {
             for (size_t j = 0; j < matrixSize; j++) {
                 minorMatrix[i][j] = matrix[!i][!j];
+            }
+        }
+    }
+    else if (matrixSize == 3) {
+        for (size_t i = 0; i < matrixSize; i++) {
+            for (size_t j = 0; j < matrixSize; j++) {
+                int aI = (i == 0) ? 1 : 0;
+                int bI = (i == 2) ? 1 : 2;
+                int aJ = (j == 0) ? 1 : 0;
+                int bJ = (j == 2) ? 1 : 2;
+                minorMatrix[i][j] = matrix[aI][aJ] * matrix[bI][bJ] - matrix[bI][aJ] * matrix[aI][bJ];
             }
         }
     }
@@ -171,6 +187,8 @@ double** matrixInit(size_t matrixSize) {
 }
 
 void matrixDestroy(double** matrix, size_t matrixSize) {
+    validate(matrix != nullptr,, "Matrix is null")
+
     for (size_t i = 0; i < matrixSize; i++) {
         delete matrix[i];
     }
@@ -179,6 +197,8 @@ void matrixDestroy(double** matrix, size_t matrixSize) {
 }
 
 void matrixDisplay(double** matrix, size_t matrixSize) {
+    validate(matrix != nullptr,, "Matrix is null")
+
     for (size_t i = 0; i < matrixSize; i++) {
         for (size_t j = 0; j < matrixSize; j++) {
             std::cout << matrix[i][j] << '\t';
