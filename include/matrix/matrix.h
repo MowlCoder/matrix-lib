@@ -24,10 +24,10 @@ public:
     Matrix add(const Matrix& m) const;
     Matrix subtract(const Matrix& m) const;
     Matrix multiply(const Matrix& m) const;
-    Matrix transposition();
-    Matrix reverse();
-    Matrix minor();
-    double getDeterminant();
-    int getSize();
-    void show();
+    Matrix transposition() const;
+    Matrix reverse() const;
+    Matrix minor() const;
+    double getDeterminant() const;
+    int getSize() const;
+    void show() const;
 };

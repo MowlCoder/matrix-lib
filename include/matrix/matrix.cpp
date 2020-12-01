@@ -130,7 +130,7 @@ Matrix Matrix::multiply(const Matrix& m) const {
     return result;
 }
 
-Matrix Matrix::transposition() {
+Matrix Matrix::transposition() const {
     Matrix result = Matrix(_size);
 
     for (size_t i = 0; i < _size; i++) {
@@ -142,7 +142,7 @@ Matrix Matrix::transposition() {
     return result;
 }
 
-Matrix Matrix::reverse() {
+Matrix Matrix::reverse() const {
     double determinant = this->getDeterminant();
 //    validate(determinant != 0, nullptr, "Determinant is zero")
 
@@ -175,7 +175,7 @@ Matrix Matrix::reverse() {
     return tMatrix;
 }
 
-Matrix Matrix::minor() {
+Matrix Matrix::minor() const {
     Matrix minorMatrix = Matrix(_size);
 
     if (_size == 2) {
@@ -200,7 +200,7 @@ Matrix Matrix::minor() {
     return minorMatrix;
 }
 
-double Matrix::getDeterminant() {
+double Matrix::getDeterminant() const {
     if (_size == 2) {
         return (_value[0][0] * _value[1][1]) - (_value[0][1] * _value[1][0]);
     }
@@ -246,11 +246,11 @@ double Matrix::getDeterminant() {
     }
 }
 
-int Matrix::getSize() {
+int Matrix::getSize() const {
     return _size;
 }
 
-void Matrix::show() {
+void Matrix::show() const {
     for (size_t i = 0; i < _size; i++) {
         for (size_t j = 0; j < _size; j++) {
             std::cout << _value[i][j] << '\t';
