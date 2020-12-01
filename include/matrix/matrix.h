@@ -2,13 +2,32 @@
 
 #include <iostream>
 
-double** matrixInit(size_t matrixSize);
-void matrixDestroy(double** matrix, size_t matrixSize);
-void matrixDisplay(double** matrix, size_t matrixSize);
-double** matrixAdd(double** firstMatrix, double** secondMatrix, size_t matrixSize);
-double** matrixSubtraction(double** firstMatrix, double** secondMatrix, size_t matrixSize);
-double** matrixMulti(double** firstMatrix, double** secondMatrix, size_t matrixSize);
-double matrixDeterminant(double** matrix, size_t matrixSize);
-double** matrixTransposition(double** matrix, size_t matrixSize);
-double** matrixReverse(double** matrix, size_t matrixSize);
-double** matrixMinor(double** matrix, size_t matrixSize);
+class Matrix {
+private:
+    int _size{};
+
+    void init(int size);
+    void init(int size, double **value);
+
+public:
+    double **_value{};
+
+    Matrix();
+    Matrix(int size);
+    Matrix(double **value, int size);
+    Matrix(const Matrix&);
+    ~Matrix();
+
+    Matrix operator+(const Matrix& m) const;
+    Matrix operator-(const Matrix& m) const;
+    Matrix operator*(const Matrix& m) const;
+    Matrix add(const Matrix& m) const;
+    Matrix subtract(const Matrix& m) const;
+    Matrix multiply(const Matrix& m) const;
+    Matrix transposition();
+    Matrix reverse();
+    Matrix minor();
+    double getDeterminant();
+    int getSize();
+    void show();
+};

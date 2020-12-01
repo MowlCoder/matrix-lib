@@ -4,168 +4,195 @@
 #include "matrix.h"
 #include "../validate/validate.h"
 
-double** matrixAdd(double** firstMatrix, double** secondMatrix, size_t matrixSize) {
-    double** resultMatrix = matrixInit(matrixSize);
+Matrix::Matrix() {
+    std::cout << "Constructor: " << this << '\n';
+    init(3);
+}
 
-    validate(firstMatrix != nullptr, nullptr, "First matrix is null")
-    validate(secondMatrix != nullptr, nullptr, "Second matrix is null")
-    validate(resultMatrix != nullptr, nullptr, "Final matrix is null")
+void Matrix::init(int size) {
+    _size = size;
+    _value = new double*[size];
 
-    for (int i = 0; i < matrixSize; i++) {
-        for (int j = 0; j < matrixSize; j++) {
-            resultMatrix[i][j] += firstMatrix[i][j] + secondMatrix[i][j];
+    for (size_t i = 0; i < size; i++) {
+        _value[i] = new double[size];
+        memset(_value[i], 0, size * sizeof(double));
+    }
+}
+
+void Matrix::init(int size, double **value) {
+    init(size);
+
+    for (size_t i = 0; i < size; i++) {
+        for (size_t j = 0; j < size; j++) {
+            _value[i][j] = value[i][j];
+        }
+    }
+}
+
+Matrix::Matrix(int size) {
+    std::cout << "Constructor: " << this << '\n';
+    init(size);
+}
+
+Matrix::Matrix(double **value, int size) {
+    std::cout << "Constructor: " << this << '\n';
+    init(size, value);
+}
+
+Matrix::Matrix(const Matrix &m) {
+    init(m._size, m._value);
+    std::cout << "Copy Constructor: " << this << '\n';
+}
+
+Matrix::~Matrix() {
+    std::cout << "Deconstruct: " << this << '\n';
+
+    for (size_t i = 0; i < _size; i++) {
+        delete _value[i];
+    }
+
+    delete _value;
+}
+
+Matrix Matrix::operator+(const Matrix& m) const {
+    Matrix result = Matrix(_size);
+
+    for (int i = 0; i < _size; i++) {
+        for (int j = 0; j < _size; j++) {
+            result._value[i][j] += _value[i][j] + m._value[i][j];
         }
     }
 
-    return resultMatrix;
+    return result;
 }
 
-double** matrixSubtraction(double** firstMatrix, double** secondMatrix, size_t matrixSize) {
-    double** resultMatrix = matrixInit(matrixSize);
+Matrix Matrix::add(const Matrix& m) const {
+    Matrix result = Matrix(_size);
 
-    validate(firstMatrix != nullptr, nullptr, "First matrix is null")
-    validate(secondMatrix != nullptr, nullptr, "Second matrix is null")
-    validate(resultMatrix != nullptr, nullptr, "Final matrix is null")
-
-    for (int i = 0; i < matrixSize; i++) {
-        for (int j = 0; j < matrixSize; ++j) {
-            resultMatrix[i][j] += firstMatrix[i][j] - secondMatrix[i][j];
+    for (int i = 0; i < _size; i++) {
+        for (int j = 0; j < _size; j++) {
+            result._value[i][j] += _value[i][j] + m._value[i][j];
         }
     }
 
-    return resultMatrix;
+    return result;
 }
 
-double** matrixMulti(double** firstMatrix, double** secondMatrix, size_t matrixSize) {
-    double** resultMatrix = matrixInit(matrixSize);
+Matrix Matrix::operator-(const Matrix& m) const {
+    Matrix result = Matrix(_size);
 
-    validate(firstMatrix != nullptr, nullptr, "First matrix is null")
-    validate(secondMatrix != nullptr, nullptr, "Second matrix is null")
-    validate(resultMatrix != nullptr, nullptr, "Final matrix is null")
+    for (int i = 0; i < _size; i++) {
+        for (int j = 0; j < _size; ++j) {
+            result._value[i][j] += _value[i][j] - m._value[i][j];
+        }
+    }
 
-    for (int i = 0; i < matrixSize; i++) {
-        for (int j = 0; j < matrixSize; j++) {
-            for (int x = 0; x < matrixSize; x++) {
-                resultMatrix[i][x] += firstMatrix[i][j] * secondMatrix[j][x];
+    return result;
+}
+
+Matrix Matrix::subtract(const Matrix& m) const {
+    Matrix result = Matrix(_size);
+
+    for (int i = 0; i < _size; i++) {
+        for (int j = 0; j < _size; ++j) {
+            result._value[i][j] += _value[i][j] - m._value[i][j];
+        }
+    }
+
+    return result;
+}
+
+Matrix Matrix::operator*(const Matrix& m) const {
+    Matrix result = Matrix(_size);
+
+    for (int i = 0; i < _size; i++) {
+        for (int j = 0; j < _size; j++) {
+            for (int x = 0; x < _size; x++) {
+                result._value[i][x] += _value[i][j] * m._value[j][x];
             }
         }
     }
 
-    return resultMatrix;
+    return result;
 }
 
-double matrixDeterminant(double** m, size_t matrixSize) {
-    validate(m != nullptr, 0, "Matrix is null")
+Matrix Matrix::multiply(const Matrix& m) const {
+    Matrix result = Matrix(_size);
 
-    if (matrixSize == 2) {
-        return (m[0][0] * m[1][1]) - (m[0][1] * m[1][0]);
-    }
-    if (matrixSize == 3) {
-        return (m[0][0] * m[1][1] * m[2][2]) + (m[2][0] * m[0][1] * m[1][2]) + (m[1][0] * m[2][1] * m[0][2])
-               - (m[2][0] * m[1][1] * m[0][2]) - (m[1][0] * m[0][1] * m[2][2]) - (m[0][0] * m[1][2] * m[2][1]);
-    }
-    if (matrixSize >= 4) {
-        double** finalMatrix = matrixInit(matrixSize);
-
-        for (size_t i = 0; i < matrixSize; i++) {
-            for (size_t j = 0; j < matrixSize; j++) {
-                finalMatrix[i][j] = m[i][j];
+    for (int i = 0; i < _size; i++) {
+        for (int j = 0; j < _size; j++) {
+            for (int x = 0; x < _size; x++) {
+                result._value[i][x] += _value[i][j] * m._value[j][x];
             }
         }
-
-        for (size_t i = 1; i < matrixSize; i++) {
-            double multiplier = fabs(finalMatrix[i][0] / finalMatrix[0][0]) * ((finalMatrix[0][0] >= 0) ? -1 : 1);
-            for (size_t j = 0; j < matrixSize; j++) {
-                finalMatrix[i][j] += finalMatrix[0][j] * multiplier;
-            }
-        }
-
-        for (size_t i = 2; i < matrixSize; i++) {
-            double multiplier = fabs(finalMatrix[i][1] / finalMatrix[1][1]) * ((finalMatrix[1][1] >= 0) ? -1 : 1);
-            for (size_t j = 1; j < matrixSize; j++) {
-                finalMatrix[i][j] += finalMatrix[1][j] * multiplier;
-            }
-        }
-
-        double multiplier = fabs(finalMatrix[3][2] / finalMatrix[2][2]) * ((finalMatrix[2][2] >= 0) ? -1 : 1);
-        for (size_t i = 2; i < matrixSize; i++) {
-            finalMatrix[3][i] += finalMatrix[2][i] * multiplier;
-        }
-
-        double result = finalMatrix[0][0] * finalMatrix[1][1] * finalMatrix[2][2] * finalMatrix[3][3];
-
-        matrixDestroy(finalMatrix, matrixSize);
-        return result;
     }
 
-    return 0;
+    return result;
 }
 
-double** matrixTransposition(double** matrix, size_t matrixSize) {
-    validate(matrix != nullptr, nullptr, "Matrix is null")
+Matrix Matrix::transposition() {
+    Matrix result = Matrix(_size);
 
-    double** resultMatrix = matrixInit(matrixSize);
-
-    for (size_t i = 0; i < matrixSize; i++) {
-        for (size_t j = 0; j < matrixSize; j++) {
-            resultMatrix[i][j] = matrix[j][i];
+    for (size_t i = 0; i < _size; i++) {
+        for (size_t j = 0; j < _size; j++) {
+            result._value[i][j] = _value[j][i];
         }
     }
 
-    return resultMatrix;
+    return result;
 }
 
-double** matrixReverse(double** matrix, size_t matrixSize) {
-    validate(matrix != nullptr, nullptr, "Matrix is null")
+Matrix Matrix::reverse() {
+    double determinant = this->getDeterminant();
+//    validate(determinant != 0, nullptr, "Determinant is zero")
 
-    double determinant = matrixDeterminant(matrix, matrixSize);
-    validate(determinant != 0, nullptr, "Determinant is zero")
-
-    double** initMatrix = matrixMinor(matrix, matrixSize);
-
-    if (matrixSize == 2) {
-        initMatrix[0][1] *= -1;
-        initMatrix[1][0] *= -1;
-    }
-    else if (matrixSize == 3) {
-        initMatrix[0][1] *= -1;
-        initMatrix[1][0] *= -1;
-        initMatrix[1][2] *= -1;
-        initMatrix[2][1] *= -1;
+    if (determinant == 0) {
+        std::cout << "Determinant is zero\n";
+        return Matrix();
     }
 
-    double** tMatrix = matrixTransposition(initMatrix, matrixSize);
+    Matrix initMatrix = this->minor();
 
-    for (size_t i = 0; i < matrixSize; i++) {
-        for (size_t j = 0; j < matrixSize; j++) {
-            tMatrix[i][j] /= determinant;
+    if (_size == 2) {
+        initMatrix._value[0][1] *= -1;
+        initMatrix._value[1][0] *= -1;
+    }
+    else if (_size == 3) {
+        initMatrix._value[0][1] *= -1;
+        initMatrix._value[1][0] *= -1;
+        initMatrix._value[1][2] *= -1;
+        initMatrix._value[2][1] *= -1;
+    }
+
+    Matrix tMatrix = initMatrix.transposition();
+
+    for (size_t i = 0; i < _size; i++) {
+        for (size_t j = 0; j < _size; j++) {
+            tMatrix._value[i][j] /= determinant;
         }
     }
 
-    matrixDestroy(initMatrix, matrixSize);
     return tMatrix;
 }
 
-double** matrixMinor(double** matrix, size_t matrixSize) {
-    validate(matrix != nullptr, nullptr, "Matrix is null")
+Matrix Matrix::minor() {
+    Matrix minorMatrix = Matrix(_size);
 
-    double** minorMatrix = matrixInit(matrixSize);
-
-    if (matrixSize == 2) {
-        for (size_t i = 0; i < matrixSize; i++) {
-            for (size_t j = 0; j < matrixSize; j++) {
-                minorMatrix[i][j] = matrix[!i][!j];
+    if (_size == 2) {
+        for (size_t i = 0; i < _size; i++) {
+            for (size_t j = 0; j < _size; j++) {
+                minorMatrix._value[i][j] = _value[!i][!j];
             }
         }
     }
-    else if (matrixSize == 3) {
-        for (size_t i = 0; i < matrixSize; i++) {
-            for (size_t j = 0; j < matrixSize; j++) {
+    else if (_size == 3) {
+        for (size_t i = 0; i < _size; i++) {
+            for (size_t j = 0; j < _size; j++) {
                 int aI = (i == 0) ? 1 : 0;
                 int bI = (i == 2) ? 1 : 2;
                 int aJ = (j == 0) ? 1 : 0;
                 int bJ = (j == 2) ? 1 : 2;
-                minorMatrix[i][j] = matrix[aI][aJ] * matrix[bI][bJ] - matrix[bI][aJ] * matrix[aI][bJ];
+                minorMatrix._value[i][j] = _value[aI][aJ] * _value[bI][bJ] - _value[bI][aJ] * _value[aI][bJ];
             }
         }
     }
@@ -173,37 +200,61 @@ double** matrixMinor(double** matrix, size_t matrixSize) {
     return minorMatrix;
 }
 
-double** matrixInit(size_t matrixSize) {
-    validate(matrixSize >= 2 && matrixSize <= 6, nullptr, "Matrix size should be between 2 and 6")
-
-    double** result = new double*[matrixSize];
-
-    for (size_t i = 0; i < matrixSize; i++) {
-        result[i] = new double[matrixSize];
-        memset(result[i], 0, matrixSize * sizeof(double));
+double Matrix::getDeterminant() {
+    if (_size == 2) {
+        return (_value[0][0] * _value[1][1]) - (_value[0][1] * _value[1][0]);
     }
-
-    return result;
-}
-
-void matrixDestroy(double** matrix, size_t matrixSize) {
-    validate(matrix != nullptr,, "Matrix is null")
-
-    for (size_t i = 0; i < matrixSize; i++) {
-        delete matrix[i];
+    if (_size == 3) {
+        return (_value[0][0] * _value[1][1] * _value[2][2]) +
+                (_value[2][0] * _value[0][1] * _value[1][2]) +
+                (_value[1][0] * _value[2][1] * _value[0][2]) -
+                (_value[2][0] * _value[1][1] * _value[0][2]) -
+                (_value[1][0] * _value[0][1] * _value[2][2]) -
+                (_value[0][0] * _value[1][2] * _value[2][1]);
     }
+    if (_size >= 4) {
+        Matrix finalMatrix = Matrix(_size);
 
-    delete matrix;
-}
-
-void matrixDisplay(double** matrix, size_t matrixSize) {
-    validate(matrix != nullptr,, "Matrix is null")
-
-    for (size_t i = 0; i < matrixSize; i++) {
-        for (size_t j = 0; j < matrixSize; j++) {
-            std::cout << matrix[i][j] << '\t';
+        for (size_t i = 0; i < _size; i++) {
+            for (size_t j = 0; j < _size; j++) {
+                finalMatrix._value[i][j] = _value[i][j];
+            }
         }
 
+        for (size_t i = 1; i < _size; i++) {
+            double multiplier = fabs(finalMatrix._value[i][0] / finalMatrix._value[0][0]) * ((finalMatrix._value[0][0] >= 0) ? -1 : 1);
+            for (size_t j = 0; j < _size; j++) {
+                finalMatrix._value[i][j] += finalMatrix._value[0][j] * multiplier;
+            }
+        }
+
+        for (size_t i = 2; i < _size; i++) {
+            double multiplier = fabs(finalMatrix._value[i][1] / finalMatrix._value[1][1]) * ((finalMatrix._value[1][1] >= 0) ? -1 : 1);
+            for (size_t j = 1; j < _size; j++) {
+                finalMatrix._value[i][j] += finalMatrix._value[1][j] * multiplier;
+            }
+        }
+
+        double multiplier = fabs(finalMatrix._value[3][2] / finalMatrix._value[2][2]) * ((finalMatrix._value[2][2] >= 0) ? -1 : 1);
+        for (size_t i = 2; i < _size; i++) {
+            finalMatrix._value[3][i] += finalMatrix._value[2][i] * multiplier;
+        }
+
+        double result = finalMatrix._value[0][0] * finalMatrix._value[1][1] * finalMatrix._value[2][2] * finalMatrix._value[3][3];
+
+        return result;
+    }
+}
+
+int Matrix::getSize() {
+    return _size;
+}
+
+void Matrix::show() {
+    for (size_t i = 0; i < _size; i++) {
+        for (size_t j = 0; j < _size; j++) {
+            std::cout << _value[i][j] << '\t';
+        }
         std::cout << '\n';
     }
 }
