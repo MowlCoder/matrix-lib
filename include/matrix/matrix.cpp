@@ -9,8 +9,6 @@ Matrix::Matrix() {
     init(3);
 }
 
-byte x = 8;
-
 void Matrix::init(byte size) {
     _size = size;
     _value = new double*[size];
