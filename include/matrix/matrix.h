@@ -1,6 +1,9 @@
 #pragma once
 
 #include <iostream>
+#include <stdint.h>
+
+typedef uint8_t byte;
 
 class Matrix {
 private:
@@ -24,9 +27,9 @@ public:
     Matrix add(const Matrix& m) const;
     Matrix subtract(const Matrix& m) const;
     Matrix multiply(const Matrix& m) const;
-    void valueAdd(int number);
-    void valueSubtract(int number);
-    void valueMultiply(int number);
+    void valueAdd(int number) const;
+    void valueSubtract(int number) const;
+    void valueMultiply(int number) const;
     Matrix transposition() const;
     Matrix reverse() const;
     Matrix minor() const;

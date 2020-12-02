@@ -9,11 +9,13 @@ Matrix::Matrix() {
     init(3);
 }
 
+byte x = 8;
+
 void Matrix::init(int size) {
     _size = size;
     _value = new double*[size];
 
-    for (size_t i = 0; i < size; i++) {
+    for (byte i = 0; i < size; i++) {
         _value[i] = new double[size];
         memset(_value[i], 0, size * sizeof(double));
     }
@@ -22,8 +24,8 @@ void Matrix::init(int size) {
 void Matrix::init(int size, double **value) {
     init(size);
 
-    for (size_t i = 0; i < size; i++) {
-        for (size_t j = 0; j < size; j++) {
+    for (byte i = 0; i < size; i++) {
+        for (byte j = 0; j < size; j++) {
             _value[i][j] = value[i][j];
         }
     }
@@ -47,7 +49,7 @@ Matrix::Matrix(const Matrix &m) {
 Matrix::~Matrix() {
     std::cout << "Deconstruct: " << this << '\n';
 
-    for (size_t i = 0; i < _size; i++) {
+    for (byte i = 0; i < _size; i++) {
         delete _value[i];
     }
 
@@ -62,8 +64,8 @@ Matrix Matrix::operator+(const Matrix& m) const {
 Matrix Matrix::add(const Matrix& m) const {
     Matrix result = Matrix(_size);
 
-    for (int i = 0; i < _size; i++) {
-        for (int j = 0; j < _size; j++) {
+    for (byte i = 0; i < _size; i++) {
+        for (byte j = 0; j < _size; j++) {
             result._value[i][j] += _value[i][j] + m._value[i][j];
         }
     }
@@ -79,8 +81,8 @@ Matrix Matrix::operator-(const Matrix& m) const {
 Matrix Matrix::subtract(const Matrix& m) const {
     Matrix result = Matrix(_size);
 
-    for (int i = 0; i < _size; i++) {
-        for (int j = 0; j < _size; ++j) {
+    for (byte i = 0; i < _size; i++) {
+        for (byte j = 0; j < _size; ++j) {
             result._value[i][j] += _value[i][j] - m._value[i][j];
         }
     }
@@ -96,9 +98,9 @@ Matrix Matrix::operator*(const Matrix& m) const {
 Matrix Matrix::multiply(const Matrix& m) const {
     Matrix result = Matrix(_size);
 
-    for (size_t i = 0; i < _size; i++) {
-        for (size_t j = 0; j < _size; j++) {
-            for (size_t x = 0; x < _size; x++) {
+    for (byte i = 0; i < _size; i++) {
+        for (byte j = 0; j < _size; j++) {
+            for (byte x = 0; x < _size; x++) {
                 result._value[i][x] += _value[i][j] * m._value[j][x];
             }
         }
@@ -107,25 +109,25 @@ Matrix Matrix::multiply(const Matrix& m) const {
     return result;
 }
 
-void Matrix::valueAdd(int number) {
-    for (size_t i = 0; i < _size; i++) {
-        for (size_t j = 0; j < _size; j++) {
+void Matrix::valueAdd(int number) const {
+    for (byte i = 0; i < _size; i++) {
+        for (byte j = 0; j < _size; j++) {
             _value[i][j] += number;
         }
     }
 }
 
-void Matrix::valueSubtract(int number) {
-    for (size_t i = 0; i < _size; i++) {
-        for (size_t j = 0; j < _size; j++) {
+void Matrix::valueSubtract(int number) const {
+    for (byte i = 0; i < _size; i++) {
+        for (byte j = 0; j < _size; j++) {
             _value[i][j] -= number;
         }
     }
 }
 
-void Matrix::valueMultiply(int number) {
-    for (size_t i = 0; i < _size; i++) {
-        for (size_t j = 0; j < _size; j++) {
+void Matrix::valueMultiply(int number) const {
+    for (byte i = 0; i < _size; i++) {
+        for (byte j = 0; j < _size; j++) {
             _value[i][j] *= number;
         }
     }
@@ -134,8 +136,8 @@ void Matrix::valueMultiply(int number) {
 Matrix Matrix::transposition() const {
     Matrix result = Matrix(_size);
 
-    for (size_t i = 0; i < _size; i++) {
-        for (size_t j = 0; j < _size; j++) {
+    for (byte i = 0; i < _size; i++) {
+        for (byte j = 0; j < _size; j++) {
             result._value[i][j] = _value[j][i];
         }
     }
@@ -167,8 +169,8 @@ Matrix Matrix::reverse() const {
 
     Matrix tMatrix = initMatrix.transposition();
 
-    for (size_t i = 0; i < _size; i++) {
-        for (size_t j = 0; j < _size; j++) {
+    for (byte i = 0; i < _size; i++) {
+        for (byte j = 0; j < _size; j++) {
             tMatrix._value[i][j] /= determinant;
         }
     }
@@ -180,15 +182,15 @@ Matrix Matrix::minor() const {
     Matrix minorMatrix = Matrix(_size);
 
     if (_size == 2) {
-        for (size_t i = 0; i < _size; i++) {
-            for (size_t j = 0; j < _size; j++) {
+        for (byte i = 0; i < _size; i++) {
+            for (byte j = 0; j < _size; j++) {
                 minorMatrix._value[i][j] = _value[!i][!j];
             }
         }
     }
     else if (_size == 3) {
-        for (size_t i = 0; i < _size; i++) {
-            for (size_t j = 0; j < _size; j++) {
+        for (byte i = 0; i < _size; i++) {
+            for (byte j = 0; j < _size; j++) {
                 int aI = (i == 0) ? 1 : 0;
                 int bI = (i == 2) ? 1 : 2;
                 int aJ = (j == 0) ? 1 : 0;
@@ -216,28 +218,28 @@ double Matrix::getDeterminant() const {
     if (_size >= 4) {
         Matrix finalMatrix = Matrix(_size);
 
-        for (size_t i = 0; i < _size; i++) {
-            for (size_t j = 0; j < _size; j++) {
+        for (byte i = 0; i < _size; i++) {
+            for (byte j = 0; j < _size; j++) {
                 finalMatrix._value[i][j] = _value[i][j];
             }
         }
 
-        for (size_t i = 1; i < _size; i++) {
+        for (byte i = 1; i < _size; i++) {
             double multiplier = fabs(finalMatrix._value[i][0] / finalMatrix._value[0][0]) * ((finalMatrix._value[0][0] >= 0) ? -1 : 1);
-            for (size_t j = 0; j < _size; j++) {
+            for (byte j = 0; j < _size; j++) {
                 finalMatrix._value[i][j] += finalMatrix._value[0][j] * multiplier;
             }
         }
 
-        for (size_t i = 2; i < _size; i++) {
+        for (byte i = 2; i < _size; i++) {
             double multiplier = fabs(finalMatrix._value[i][1] / finalMatrix._value[1][1]) * ((finalMatrix._value[1][1] >= 0) ? -1 : 1);
-            for (size_t j = 1; j < _size; j++) {
+            for (byte j = 1; j < _size; j++) {
                 finalMatrix._value[i][j] += finalMatrix._value[1][j] * multiplier;
             }
         }
 
         double multiplier = fabs(finalMatrix._value[3][2] / finalMatrix._value[2][2]) * ((finalMatrix._value[2][2] >= 0) ? -1 : 1);
-        for (size_t i = 2; i < _size; i++) {
+        for (byte i = 2; i < _size; i++) {
             finalMatrix._value[3][i] += finalMatrix._value[2][i] * multiplier;
         }
 
@@ -252,8 +254,8 @@ int Matrix::getSize() const {
 }
 
 void Matrix::show() const {
-    for (size_t i = 0; i < _size; i++) {
-        for (size_t j = 0; j < _size; j++) {
+    for (byte i = 0; i < _size; i++) {
+        for (byte j = 0; j < _size; j++) {
             std::cout << _value[i][j] << '\t';
         }
         std::cout << '\n';
