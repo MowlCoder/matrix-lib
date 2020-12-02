@@ -51,7 +51,7 @@ Matrix::~Matrix() {
         delete _value[i];
     }
 
-    delete _value;
+    delete[] _value;
 }
 
 Matrix Matrix::operator+(const Matrix& m) const {
@@ -105,6 +105,22 @@ Matrix Matrix::multiply(const Matrix& m) const {
     }
 
     return result;
+}
+
+void Matrix::valueAdd(int number) {
+    for (size_t i = 0; i < _size; i++) {
+        for (size_t j = 0; j < _size; j++) {
+            _value[i][j] += number;
+        }
+    }
+}
+
+void Matrix::valueSubtract(int number) {
+    for (size_t i = 0; i < _size; i++) {
+        for (size_t j = 0; j < _size; j++) {
+            _value[i][j] -= number;
+        }
+    }
 }
 
 void Matrix::valueMultiply(int number) {

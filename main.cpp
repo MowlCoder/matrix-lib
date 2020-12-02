@@ -40,6 +40,12 @@ int main() {
 
     m3.show();
 
+    m3.valueAdd(10);
+    m3.valueSubtract(3);
+    m3.valueMultiply(2);
+
+    m3.show();
+
     delete at[0];
     delete at[1];
     delete at[2];
