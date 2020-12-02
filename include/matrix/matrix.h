@@ -5,6 +5,8 @@
 
 typedef uint8_t byte;
 
+byte g_default_size = 3;
+
 class Matrix {
 private:
     byte _size{};
