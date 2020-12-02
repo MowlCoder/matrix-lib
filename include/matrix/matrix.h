@@ -24,6 +24,7 @@ public:
     Matrix add(const Matrix& m) const;
     Matrix subtract(const Matrix& m) const;
     Matrix multiply(const Matrix& m) const;
+    void valueMultiply(int number);
     Matrix transposition() const;
     Matrix reverse() const;
     Matrix minor() const;

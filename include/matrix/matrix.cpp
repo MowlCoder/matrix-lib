@@ -55,14 +55,7 @@ Matrix::~Matrix() {
 }
 
 Matrix Matrix::operator+(const Matrix& m) const {
-    Matrix result = Matrix(_size);
-
-    for (int i = 0; i < _size; i++) {
-        for (int j = 0; j < _size; j++) {
-            result._value[i][j] += _value[i][j] + m._value[i][j];
-        }
-    }
-
+    Matrix result = add(m);
     return result;
 }
 
@@ -79,14 +72,7 @@ Matrix Matrix::add(const Matrix& m) const {
 }
 
 Matrix Matrix::operator-(const Matrix& m) const {
-    Matrix result = Matrix(_size);
-
-    for (int i = 0; i < _size; i++) {
-        for (int j = 0; j < _size; ++j) {
-            result._value[i][j] += _value[i][j] - m._value[i][j];
-        }
-    }
-
+    Matrix result = subtract(m);
     return result;
 }
 
@@ -103,11 +89,16 @@ Matrix Matrix::subtract(const Matrix& m) const {
 }
 
 Matrix Matrix::operator*(const Matrix& m) const {
+    Matrix result = multiply(m);
+    return result;
+}
+
+Matrix Matrix::multiply(const Matrix& m) const {
     Matrix result = Matrix(_size);
 
-    for (int i = 0; i < _size; i++) {
-        for (int j = 0; j < _size; j++) {
-            for (int x = 0; x < _size; x++) {
+    for (size_t i = 0; i < _size; i++) {
+        for (size_t j = 0; j < _size; j++) {
+            for (size_t x = 0; x < _size; x++) {
                 result._value[i][x] += _value[i][j] * m._value[j][x];
             }
         }
@@ -116,18 +107,12 @@ Matrix Matrix::operator*(const Matrix& m) const {
     return result;
 }
 
-Matrix Matrix::multiply(const Matrix& m) const {
-    Matrix result = Matrix(_size);
-
-    for (int i = 0; i < _size; i++) {
-        for (int j = 0; j < _size; j++) {
-            for (int x = 0; x < _size; x++) {
-                result._value[i][x] += _value[i][j] * m._value[j][x];
-            }
+void Matrix::valueMultiply(int number) {
+    for (size_t i = 0; i < _size; i++) {
+        for (size_t j = 0; j < _size; j++) {
+            _value[i][j] *= number;
         }
     }
-
-    return result;
 }
 
 Matrix Matrix::transposition() const {
