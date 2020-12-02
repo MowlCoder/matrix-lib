@@ -11,7 +11,7 @@ Matrix::Matrix() {
 
 byte x = 8;
 
-void Matrix::init(int size) {
+void Matrix::init(byte size) {
     _size = size;
     _value = new double*[size];
 
@@ -21,7 +21,7 @@ void Matrix::init(int size) {
     }
 }
 
-void Matrix::init(int size, double **value) {
+void Matrix::init(byte size, double **value) {
     init(size);
 
     for (byte i = 0; i < size; i++) {

@@ -7,10 +7,10 @@ typedef uint8_t byte;
 
 class Matrix {
 private:
-    int _size{};
+    byte _size{};
 
-    void init(int size);
-    void init(int size, double **value);
+    void init(byte size);
+    void init(byte size, double **value);
 
 public:
     double **_value{};
