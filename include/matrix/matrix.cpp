@@ -6,7 +6,7 @@
 
 Matrix::Matrix() {
     std::cout << "Constructor: " << this << '\n';
-    init(g_default_size);
+    init(MATRIX_DEFAULT_SIZE);
 }
 
 void Matrix::init(byte size) {

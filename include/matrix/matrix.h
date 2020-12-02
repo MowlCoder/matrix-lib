@@ -5,7 +5,7 @@
 
 typedef uint8_t byte;
 
-byte g_default_size = 3;
+const byte MATRIX_DEFAULT_SIZE = 3;
 
 class Matrix {
 private:
