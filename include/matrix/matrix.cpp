@@ -4,6 +4,7 @@
 #include <cmath>
 #include "matrix.h"
 #include "../validate/validate.h"
+#include "../random/random.h"
 
 Matrix::Matrix() {
     std::cout << "Constructor: " << this << '\n';
@@ -250,6 +251,14 @@ double Matrix::getDeterminant() const {
 
 int Matrix::getSize() const {
     return _size;
+}
+
+void Matrix::randomizeValues(const int minValue, const int maxValue) {
+    for (byte i = 0; i < _size; i++) {
+        for (byte j = 0; j < _size; j++) {
+            _value[i][j] = getRandomNumber(minValue, maxValue);
+        }
+    }
 }
 
 void Matrix::show() const {
