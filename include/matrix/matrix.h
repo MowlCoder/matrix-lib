@@ -18,7 +18,7 @@ public:
     double **_value{};
 
     Matrix();
-    Matrix(int size);
+    explicit Matrix(int size);
     Matrix(double **value, int size);
     Matrix(const Matrix&);
     ~Matrix();
@@ -38,4 +38,5 @@ public:
     double getDeterminant() const;
     int getSize() const;
     void show() const;
+    std::string toString() const;
 };

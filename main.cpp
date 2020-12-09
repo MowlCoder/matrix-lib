@@ -46,6 +46,8 @@ int main() {
 
     m3.show();
 
+    std::cout << m3.toString() << '\n';
+
     delete at[0];
     delete at[1];
     delete at[2];

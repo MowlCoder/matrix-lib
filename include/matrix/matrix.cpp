@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <string>
 #include <cmath>
 #include "matrix.h"
 #include "../validate/validate.h"
@@ -258,4 +259,19 @@ void Matrix::show() const {
         }
         std::cout << '\n';
     }
+}
+
+std::string Matrix::toString() const {
+    std::string result;
+
+    for (byte i = 0; i < _size; i++) {
+        for (byte j = 0; j < _size; j++) {
+            result += std::to_string(_value[i][j]);
+            result += '\t';
+        }
+
+        result += '\n';
+    }
+
+    return result;
 }
