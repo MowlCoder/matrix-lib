@@ -38,13 +38,11 @@ int main() {
 
     Matrix m3 = m + m2;
 
-    m3.show();
+    std::cout << m3.toDebugString() << '\n';
 
     m3.valueAdd(10);
     m3.valueSubtract(3);
     m3.valueMultiply(2);
-
-    m3.show();
 
     std::cout << m3.toDebugString() << '\n';
 

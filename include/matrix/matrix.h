@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include <stdint.h>
+#include <cstdint>
 
 typedef uint8_t byte;
 
@@ -29,12 +29,15 @@ public:
     Matrix add(const Matrix& m) const;
     Matrix subtract(const Matrix& m) const;
     Matrix multiply(const Matrix& m) const;
+    Matrix power(double number); // TODO: Implement power function
     void valueAdd(int number) const;
     void valueSubtract(int number) const;
     void valueMultiply(int number) const;
     Matrix transposition() const;
     Matrix reverse() const;
     Matrix minor() const;
+    Matrix triangleView(); // TODO: Implement function to get triangle view of matrix
+    double rank(); // TODO: Implement get matrix rank function
     double getDeterminant() const;
     int getSize() const;
     void show() const;
