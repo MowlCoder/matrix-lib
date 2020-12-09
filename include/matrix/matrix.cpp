@@ -275,3 +275,28 @@ std::string Matrix::toString() const {
 
     return result;
 }
+
+std::string Matrix::toPlaneString() const {
+    std::string result = "[";
+
+    for (byte i = 0; i < _size; i++) {
+        result += "[";
+
+        for (byte j = 0; j < _size; j++) {
+            result += std::to_string(_value[i][j]);
+
+            if (j + 1 != _size) {
+                result += ',';
+            }
+        }
+
+        result += ']';
+        if (i + 1 != _size) {
+            result += ',';
+        }
+    }
+
+    result += ']';
+
+    return result;
+}

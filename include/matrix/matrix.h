@@ -39,4 +39,5 @@ public:
     int getSize() const;
     void show() const;
     std::string toString() const;
+    std::string toPlaneString() const;
 };
