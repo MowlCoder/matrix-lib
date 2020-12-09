@@ -1,61 +1,30 @@
 #include <iostream>
+#include <random>
+#include <ctime>
 #include "./include/matrix/matrix.h"
 
 int main() {
-    double **at = new double*[3];
-    at[0] = new double[3];
-    at[1] = new double[3];
-    at[2] = new double[3];
+    std::mt19937 mersenne{ static_cast<std::mt19937::result_type>(std::time(nullptr)) };
+    std::uniform_int_distribution die{ 1, 20 };
 
-    at[0][0] = 2;
-    at[0][1] = 6;
-    at[0][2] = 3;
-    at[1][0] = 7;
-    at[1][1] = 9;
-    at[1][2] = 4;
-    at[2][0] = 2;
-    at[2][1] = 9;
-    at[2][2] = 1;
+    double **at = new double*[MATRIX_DEFAULT_SIZE];
+
+    for (byte i = 0; i < MATRIX_DEFAULT_SIZE; i++) {
+        at[i] = new double[MATRIX_DEFAULT_SIZE];
+        for (byte j = 0; j < MATRIX_DEFAULT_SIZE; j++) {
+            at[i][j] = die(mersenne);
+        }
+    }
 
     Matrix m = Matrix(at, 3);
 
-    double **at2 = new double*[3];
-    at2[0] = new double[3];
-    at2[1] = new double[3];
-    at2[2] = new double[3];
+    m.show();
 
-    at2[0][0] = 6;
-    at2[0][1] = 2;
-    at2[0][2] = 3;
-    at2[1][0] = 2;
-    at2[1][1] = 9;
-    at2[1][2] = 5;
-    at2[2][0] = 1;
-    at2[2][1] = 9;
-    at2[2][2] = 0;
-
-    Matrix m2 = Matrix(at2, 3);
-
-    Matrix m3 = m + m2;
-
-    std::cout << m3.toDebugString() << '\n';
-
-    m3.valueAdd(10);
-    m3.valueSubtract(3);
-    m3.valueMultiply(2);
-
-    std::cout << m3.toDebugString() << '\n';
-
-    delete at[0];
-    delete at[1];
-    delete at[2];
-
-    delete at2[0];
-    delete at2[1];
-    delete at2[2];
+    for (byte i = 0; i < MATRIX_DEFAULT_SIZE; i++) {
+        delete[] at[i];
+    }
 
     delete[] at;
-    delete[] at2;
 
     return 0;
 }
