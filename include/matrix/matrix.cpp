@@ -300,3 +300,12 @@ std::string Matrix::toPlaneString() const {
 
     return result;
 }
+
+std::string Matrix::toDebugString() const {
+    std::string result = "Value: ";
+    result += this->toPlaneString();
+    result += " Size: ";
+    result += std::to_string(_size);
+
+    return result;
+}

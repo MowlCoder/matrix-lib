@@ -46,7 +46,7 @@ int main() {
 
     m3.show();
 
-    std::cout << m3.toPlaneString() << '\n';
+    std::cout << m3.toDebugString() << '\n';
 
     delete at[0];
     delete at[1];

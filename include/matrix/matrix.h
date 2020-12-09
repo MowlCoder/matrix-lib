@@ -40,4 +40,5 @@ public:
     void show() const;
     std::string toString() const;
     std::string toPlaneString() const;
+    std::string toDebugString() const;
 };
