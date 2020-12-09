@@ -12,4 +12,4 @@ add_executable(matrix_lib
         include/matrix/matrix.h
         include/validate/validate.h
         main.cpp
-        )
+        include/random/random.h include/random/random.cpp)
