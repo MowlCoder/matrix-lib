@@ -7,4 +7,4 @@ Library for working wit small matrix (2-6)
 * Implement function to get triangle view of matrix
 * Implement get matrix rank function
 * Implement power function
-* Create function that assign random values in matrix
+* ~~Create function that assign random values in matrix~~

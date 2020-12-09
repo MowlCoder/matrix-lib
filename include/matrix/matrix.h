@@ -40,7 +40,7 @@ public:
     double rank(); // TODO: Implement get matrix rank function
     double getDeterminant() const;
     int getSize() const;
-    void randomizeValues(int minValue, int maxValue); // TODO: Create function that assign random values in matrix
+    void randomizeValues(int minValue, int maxValue);
     void show() const;
     std::string toString() const;
     std::string toPlaneString() const;
