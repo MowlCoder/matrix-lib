@@ -108,7 +108,7 @@ Matrix Matrix::multiply(const Matrix& m) const {
     return result;
 }
 
-void Matrix::valueAdd(int number) const {
+void Matrix::valueAdd(double number) const {
     for (byte i = 0; i < _size; i++) {
         for (byte j = 0; j < _size; j++) {
             _value[i][j] += number;
@@ -116,7 +116,7 @@ void Matrix::valueAdd(int number) const {
     }
 }
 
-void Matrix::valueSubtract(int number) const {
+void Matrix::valueSubtract(double number) const {
     for (byte i = 0; i < _size; i++) {
         for (byte j = 0; j < _size; j++) {
             _value[i][j] -= number;
@@ -124,7 +124,7 @@ void Matrix::valueSubtract(int number) const {
     }
 }
 
-void Matrix::valueMultiply(int number) const {
+void Matrix::valueMultiply(double number) const {
     for (byte i = 0; i < _size; i++) {
         for (byte j = 0; j < _size; j++) {
             _value[i][j] *= number;

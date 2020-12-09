@@ -30,9 +30,9 @@ public:
     Matrix subtract(const Matrix& m) const;
     Matrix multiply(const Matrix& m) const;
     Matrix power(double number); // TODO: Implement power function
-    void valueAdd(int number) const;
-    void valueSubtract(int number) const;
-    void valueMultiply(int number) const;
+    void valueAdd(double number) const;
+    void valueSubtract(double number) const;
+    void valueMultiply(double number) const;
     Matrix transposition() const;
     Matrix reverse() const;
     Matrix minor() const;
