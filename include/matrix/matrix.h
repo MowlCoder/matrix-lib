@@ -5,11 +5,10 @@
 
 typedef uint8_t byte;
 
-const byte MATRIX_DEFAULT_SIZE = 3;
-
 class Matrix {
 private:
     byte _size{};
+    const byte MATRIX_DEFAULT_SIZE = 3;
 
     void init(byte size);
     void init(byte size, double **value);
